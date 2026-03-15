@@ -1,0 +1,9 @@
+[web]
+web1 ansible_host=192.168.61.223 ansible_ssh_pass=Passw0rd ansible_user=root
+
+[db]
+db1 ansible_host=192.168.61.224 ansible_ssh_pass=Passw0rd ansible_user=root
+
+[web_db:children]
+web
+db

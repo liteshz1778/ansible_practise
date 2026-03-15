@@ -1,0 +1,5 @@
+- name: Print Hello World on db server
+  hosts: db
+  tasks:
+      - debug:
+          msg: "Hello World on db server"

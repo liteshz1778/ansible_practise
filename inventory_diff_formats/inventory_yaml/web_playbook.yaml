@@ -1,0 +1,5 @@
+- name: Print Hello World on web server
+  hosts: web
+  tasks:
+      - debug:
+          msg: "Hello World on web server"

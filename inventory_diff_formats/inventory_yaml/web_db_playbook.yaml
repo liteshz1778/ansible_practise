@@ -1,0 +1,5 @@
+- name: Print Hello World on both web & db servers
+  hosts: web_db
+  tasks:
+      - debug:
+          msg: "Hello World on both web & db servers"
