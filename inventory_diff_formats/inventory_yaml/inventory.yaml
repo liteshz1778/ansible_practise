@@ -1,24 +1,25 @@
 all:
   children:
-    localhost_server:
+    localhostserver:
       hosts:
         localhost:
-           ansible_host=192.168.190.213 ansible_connection=local
+          ansible_host: 192.168.112.219
+          ansible_connection: local
     webserver:
       hosts:
         web1:
-          ansible_host=192.168.61.223 ansible_user=root ansible_ssh_pass=Passw0rd
-    db:
+          ansible_host: 192.168.112.215 
+          ansible_connection: ssh
+          ansible_port: 22
+          ansible_user: root 
+          ansible_ssh_pass: Passw0rd
+    dbserver:
       hosts:
         db1:
-          ansible_host=192.168.61.224 ansible_user=root ansible_ssh_pass=Passw0rd
+          ansible_host: 192.168.112.216
+          ansible_user: root 
+          ansible_ssh_pass: Passw0rd
     web_db_servers:
       children:
-        webservers:
-          hosts:
-            web1:
-              ansible_host=192.168.61.223 ansible_user=root ansible_ssh_pass=Passw0rd
-        dbservers:
-          hosts:
-            db1:
-              ansible_host=192.168.61.224 ansible_user=root ansible_ssh_pass=Passw0rd
+        webserver:
+        dbserver:
