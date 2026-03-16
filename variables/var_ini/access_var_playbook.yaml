@@ -1,0 +1,44 @@
+- name: Print Varaibles on all hosts
+  hosts: all
+  tasks:
+    - debug:
+        var: '{{ infra_ip }}'
+    - debug:
+        var: '{{ "appSupportEmail" }}'
+    - debug:
+        var: '{{ "webSupportEmail" }}'
+    - debug:
+        var: '{{ "dbSupportEmail" }}'
+- name: Print Varaibles on web_db hosts
+  hosts: web_db
+  tasks:
+    - debug:
+        var: '{{ infra_ip }}'
+    - debug:
+        var: '{{ "appSupportEmail" }}'
+    - debug:
+        var: '{{ "webSupportEmail" }}'
+    - debug:
+        var: '{{ "dbSupportEmail" }}'
+- name: Print Varaibles on web hosts
+  hosts: web
+  tasks:
+    - debug:
+        var: '{{ infra_ip }}'
+    - debug:
+        var: '{{ "appSupportEmail" }}'
+    - debug:
+        var: '{{ "webSupportEmail" }}'
+    - debug:
+        var: '{{ "dbSupportEmail" }}'
+- name: Print Varaibles on db hosts
+  hosts: db
+  tasks:
+    - debug:
+        var: '{{ infra_ip }}'
+    - debug:
+        var: '{{ "appSupportEmail" }}'
+    - debug:
+        var: '{{ "webSupportEmail" }}'
+    - debug:
+        var: '{{ "dbSupportEmail" }}'

@@ -1,0 +1,31 @@
+all:
+  vars:
+    infra_ip: 10.10.200.101
+  children:
+    web: 
+      hosts:
+        web1:
+          ansible_host: 192.168.61.171
+          ansible_connection: ssh
+          ansible_port: 22
+          ansible_user: root
+          ansible_ssh_pass: Passw0rd
+          appStatus: Running on Web
+          webSupportEmail: web.dev@support.com
+    db:
+      hosts:
+        db1:
+          ansible_host: 192.168.190.153
+          ansible_connection: ssh
+          ansible_port: 22
+          ansible_user: root
+          ansible_ssh_pass: Passw0rd
+          appStatus: Running on DB
+          dbSupportEmail: db.dev@support.com
+    web_db:
+      children:
+        web:
+        db:
+      vars:
+        appStatus: Running on web_db both
+        appSupportEmail: web_db@support.com
