@@ -1,0 +1,9 @@
+- name: Demo Ansible Magic Variable - hostvars
+  hosts: web
+  tasks:
+    - name: Print db host Variables
+      debug:
+        msg: 'DB Host Variables are appStatus: {{ hostvars["db1"].appStatus }} & dbSupportEmail: {{ hostvars["db1"].dbSupportEmail }}'
+    - name: Print localhost host Variables
+      debug:
+        msg: 'Localhost Host Variables are appStatus: {{ hostvars["local"].appStatus }}'
