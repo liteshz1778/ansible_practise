@@ -1,0 +1,6 @@
+- name: Print Magic Variable - inventory_hostname
+  hosts: all
+  tasks:
+    - name: Print inventory_hostname for current host
+      debug:
+        msg: '{{ inventory_hostname }}'

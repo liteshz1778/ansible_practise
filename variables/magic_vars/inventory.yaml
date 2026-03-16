@@ -6,7 +6,7 @@ all:
       hosts:
         local: 
           ansible_host: 192.168.61.174
-          ansible_connection: ssh
+          ansible_connection: local
           ansible_port: 22
           ansible_user: root
           appStatus: Running on localhost

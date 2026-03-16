@@ -1,0 +1,12 @@
+- name: Print Magic Variable - group_names for web host
+  hosts: web
+  tasks:
+    - name: Print group names for current host
+      debug:
+        msg: '{{ group_names }}'
+- name: Print Magic Variable - group_names for db host
+  hosts: db
+  tasks:
+    - name: Print group names for current host
+      debug:
+        msg: '{{ group_names }}'

@@ -1,0 +1,12 @@
+- name: Demo Ansible Magic Variable - groups
+  hosts: web
+  tasks:
+    - name: Print list of groups for group_name web using groups
+      debug:
+        var: groups["web"]
+    - name: Print list of groups for group_name db using groups
+      debug:
+        var: groups["db"]
+    - name: Print list oof groups for web_db group_name using groups
+      debug:
+        var: groups["web_db"]
