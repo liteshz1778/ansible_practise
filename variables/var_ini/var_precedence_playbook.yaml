@@ -1,0 +1,28 @@
+- name: Print appStatus on all hosts
+  hosts: all
+  vars:
+    appStatus: "Running on all"
+  tasks: 
+    - debug:
+        var: '{{ "appStatus" }}'
+- name: Print appStatus on web hosts
+  hosts: web
+  vars:
+    appStatus: "Running on web"
+  tasks: 
+    - debug:
+        var: '{{ "appStatus" }}'
+- name: Print appStatus on db hosts
+  hosts: db
+  vars:
+    appStatus: "Running on db"
+  tasks: 
+    - debug:
+        var: '{{ "appStatus" }}'
+- name: Print appStatus on web_db hosts
+  hosts: web_db
+  vars:
+    appStatus: "Running on web_db"
+  tasks: 
+    - debug:
+        var: '{{ "appStatus" }}'

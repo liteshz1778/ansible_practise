@@ -1,0 +1,16 @@
+[web]
+web1 ansible_host=192.168.61.255 ansible_connection=ssh ansible_port=22 ansible_user=root ansible_ssh_pass=Passw0rd appStatus="Running on Web" web_access_ip=10.10.10.11
+
+[db]
+db1 ansible_host=192.168.190.197 ansible_connection=ssh ansible_port=22 ansible_user=root ansible_ssh_pass=Passw0rd appStatus="Running on Db" db_access_ip=10.10.10.12
+
+[web_db:children]
+web
+db
+
+[web_db:vars]
+appStatus="Running on web_db both"
+web_db_access_ip=10.10.10.13
+
+[all:vars]
+infra_ip=10.10.10.10
