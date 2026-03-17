@@ -4,7 +4,19 @@
   tasks:
     - name: Print ansible_host for db1 host
       debug:
-        msg: '{{ hostvars["db1"].ansible_host }}'
+        msg: 'db1 host ip adddress is: {{ hostvars["db1"].ansible_host }}'
     - name: Print ansible_facts for web group 
       debug:
-        msg: '{{ ansible_facts }}'
+        var: ansible_facts
+    - name: Print web host architecture & os_family
+      debug:
+        msg: 'Architecture is: {{ ansible_facts.architecture }} OS Family is: {{ ansible_facts.os_family }}'
+    - name: Print web host IP Address
+      debug:
+        var: ansible_facts.eth0.ipv4.address
+    - name: Print web host MAC Address
+      debug:
+        var: ansible_facts.eth0.macaddress
+    - name: Print FQDN for web host
+      debug:
+        msg: 'Fully Qualified Domain Name: {{ ansible_facts.fqdn }}'
