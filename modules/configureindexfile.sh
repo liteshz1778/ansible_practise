@@ -1,3 +1,3 @@
 #!/bin/bash
-touch /var/www/html/index.html
-echo "<h1>Hello World from $(hostname -f)</h1>" > /var/www/html/index.html
+mkdir /usr/share/nginx/html/custom_webpage/
+echo "<h1>Hello World from $(hostname -f)</h1>" > /usr/share/nginx/html/custom_webpage/index.html

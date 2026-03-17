@@ -1,8 +1,6 @@
 - name: Demo nginx server
-  hosts: local
+  hosts: web
   tasks:
-    - name: Execute date command 
-      command: 'date'
     - name: Install nginx server
       apt:
         name: nginx
@@ -19,3 +17,11 @@
         var: result.stdout
     - name: Access default nginx webpage
       command: 'curl {{ result.stdout }}'
+    - name: Added custom webpage 
+      script: configureindexfile.sh
+    - name: nginx service restart
+      service:
+        name: nginx
+        state: restarted
+    - name: Access custom webpage nginx webpage
+      command: 'curl {{ result.stdout }}/custom_webpage'
