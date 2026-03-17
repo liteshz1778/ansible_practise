@@ -1,9 +1,10 @@
 - name: Print ansible_facts for db1 host
   hosts: web
+  gather_facts: yes
   tasks:
     - name: Print ansible_host for db1 host
       debug:
         msg: '{{ hostvars["db1"].ansible_host }}'
-    - name: Print ansible_facts for db1 host
+    - name: Print ansible_facts for web group 
       debug:
-        var: '{{ hostvars["db1"].ansible_facts }}'
+        msg: '{{ ansible_facts }}'

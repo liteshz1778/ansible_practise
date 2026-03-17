@@ -5,7 +5,7 @@ all:
     localhost:
       hosts:
         local: 
-          ansible_host: 192.168.61.174
+          ansible_host: 192.168.61.244
           ansible_connection: ssh
           ansible_port: 22
           ansible_user: root
@@ -13,7 +13,7 @@ all:
     web: 
       hosts:
         web1:
-          ansible_host: 192.168.190.245
+          ansible_host: 192.168.112.191
           ansible_connection: ssh
           ansible_port: 22
           ansible_user: root
@@ -23,7 +23,7 @@ all:
     db:
       hosts:
         db1:
-          ansible_host: 192.168.190.247
+          ansible_host: 192.168.112.161
           ansible_connection: ssh
           ansible_port: 22
           ansible_user: root
