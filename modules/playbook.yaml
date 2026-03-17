@@ -1,0 +1,21 @@
+- name: Demo nginx server
+  hosts: local
+  tasks:
+    - name: Execute date command 
+      command: 'date'
+    - name: Install nginx server
+      apt:
+        name: nginx
+        state: present
+    - name: nginx service start
+      service:
+        name: nginx
+        state: started
+    - name: Get the IP Address of current server
+      command: hostname -i
+      register: result
+    - name: Show IP Address for current server
+      debug:
+        var: result.stdout
+    - name: Access default nginx webpage
+      command: 'curl {{ result.stdout }}'
