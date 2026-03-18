@@ -1,0 +1,22 @@
+- name: Demo File modules
+  hosts: localhost
+  tasks:
+    - name: Add a demo line
+      lineinfile:
+        path: ./demofiles/demotest1.txt
+        line: "Hi this Litesh Zadane here. Learning Ansible"
+    - name: Copy the demofile2.txt to demofiles directory
+      copy:
+        src: ./demofile2.txt
+        dest: demofiles
+    - name: create sample files for archive demo
+      script: filescript.sh 10
+    - name: Create archive of /demofiles/demo_archive directory in demofiles
+      archive:
+        path: ./demofiles/demo_archive
+        dest: ./demofiles/demo_archive.tar.gz
+        mode: '0777'
+    - name: Unarchive /demofiles/demo_archive.tar.gz to /demofiles/unarchive_files
+      unarchive:
+        src: ./demofiles/demo_archive.tar.gz
+        dest: /root/ansible_practise/modules/module_file/demofiles/unarchive_files
