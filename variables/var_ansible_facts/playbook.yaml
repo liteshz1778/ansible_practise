@@ -20,3 +20,6 @@
     - name: Print FQDN for web host
       debug:
         msg: 'Fully Qualified Domain Name: {{ ansible_facts.fqdn }}'
+    - name: Print env variables
+      debug: 
+        var: ansible_facts.env

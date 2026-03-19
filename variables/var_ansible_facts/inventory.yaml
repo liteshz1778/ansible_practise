@@ -5,15 +5,15 @@ all:
     localhost:
       hosts:
         local: 
-          ansible_host: 192.168.112.190
-          ansible_connection: ssh
+          ansible_host: 192.168.186.232
+          ansible_connection: local
           ansible_port: 22
           ansible_user: root
           appStatus: Running on localhost
     web: 
       hosts:
         web1:
-          ansible_host: 192.168.190.237
+          ansible_host: 192.168.99.177 
           ansible_connection: ssh
           ansible_port: 22
           ansible_user: root
@@ -23,7 +23,7 @@ all:
     db:
       hosts:
         db1:
-          ansible_host: 192.168.190.212
+          ansible_host: 192.168.99.171
           ansible_connection: ssh
           ansible_port: 22
           ansible_user: root

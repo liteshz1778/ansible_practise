@@ -7,7 +7,7 @@ if [ -z "$1" ]; then
 fi
 
 # Create target directory if it doesn't exist
-mkdir -p ./demofiles/demo_archive/
+mkdir -p ./demofiles/demo_archive/ ./demofiles/unarchive_files
 
 # Use seq to handle the variable range properly
 for i in $(seq 1 $1); do
