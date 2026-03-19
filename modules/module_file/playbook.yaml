@@ -33,6 +33,6 @@
         dest: '{{ ansible_facts.env.PWD }}/demofiles/unarchive_files'
 
     - name: Remove demofiles created through script & unarchive file
-      command: rm -rvf ./demofiles/demo_archive/demo* ./demofiles/demo_archive.tar.gz ./demofiles/unarchive_files ./demofiles/sample_text_file.txt
+      command: rm -rvf ./demofiles/demo_archive ./demofiles/demo_archive.tar.gz ./demofiles/unarchive_files ./demofiles/sample_text_file.txt
       register: result_newly_created_files_from_demofiles
       changed_when: result_newly_created_files_from_demofiles.rc == 0 and result_newly_created_files_from_demofiles.stdout == ""
