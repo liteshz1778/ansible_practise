@@ -1,0 +1,85 @@
+- name: Demo when & loop directive01
+  hosts: all
+  tasks:
+    - name: Print ansible_facts for condtions valdaiting
+      debug:
+        var: ansible_facts
+    - name: "Install {{ item.svc_name }} svc using apt module when os_family is Debian & host is {{ svc_hostname }}"
+      apt:
+        name: "{{ item.svc_name }}"
+        state: present
+      when: ansible_facts.hostname == item.svc_hostname  and ansible_facts.os_family == 'Debian'
+      loop:
+        - svc_name: nginx
+          svc_hostname: web1
+        - svc_name: tree
+          svc_hostname: web2
+
+- name: Demo when & loop directive02
+  hosts: localhost 
+  vars:
+    student_details:
+      - name: Kite
+        marks: 34
+      - name: Ram 
+        marks: 88
+      - name: Sham
+        marks: 65
+      - name: Suman
+        marks: 90
+      - name: Geeta
+        marks: 74
+      - name: Rahul
+        marks: 40
+  tasks:
+   - name: 'Display student if marks GE 80' 
+     debug:
+       msg: 'Student Name: {{ item.name }} & marks obtained: {{ item.marks }}'
+     when: item.marks >= 80
+     loop: '{{ student_details }}'
+
+- name: Demo when & loop directive03
+  hosts: localhost
+  vars:
+    student_details:
+      - name: Kite
+        marks: 34
+      - name: Ram
+        marks: 88
+      - name: Sham
+        marks: 65
+      - name: Suman
+        marks: 90
+      - name: Geeta
+        marks: 74
+      - name: Rahul
+        marks: 40
+  tasks:       
+  - name: 'Display student if marks GE 60 AND LE 79'
+    debug:
+      msg: 'Student Name: {{ item.name }} & marks obtained: {{ item.marks }}'
+    when: item.marks >= 60 and item.marks <=79
+    loop: '{{ student_details }}'
+
+- name: Demo when & loop directive04
+  hosts: localhost
+  vars:
+    student_details:
+      - name: Kite
+        marks: 34
+      - name: Ram
+        marks: 88
+      - name: Sham
+        marks: 65
+      - name: Suman
+        marks: 90
+      - name: Geeta
+        marks: 74
+      - name: Rahul
+        marks: 40
+  tasks:       
+  - name: 'Display student if marks LE 40'
+    debug:
+      msg: 'Student Name: {{ item.name }} & marks obtained: {{ item.marks }}'
+    when: item.marks <=40
+    loop: '{{ student_details }}'
