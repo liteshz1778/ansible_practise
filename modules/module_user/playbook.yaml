@@ -13,4 +13,13 @@
         state: present
         uid: '{{ item.uid }}'
       with_items: '{{ user_details }}'
-          
+    - name: list out the users
+      command: getent passwd
+      register: getUsers_result
+      changed_when: getUsers_result.rc == 0
+      failed_when: getUsers_result.rc !=0  
+    - name: Know the logged in user
+      shell: whoami 
+      register: whoami_result
+      changed_when: whoami_result.rc == 0
+      failed_when: whoami_result.rc !=0

@@ -1,0 +1,15 @@
+- name: 'Demo become directive with false value'
+  hosts: web
+  tasks:
+    - name: list out the users
+      command: getent passwd
+      become: false
+      become_user: litesh
+    - name: Know the logged in user
+      shell: whoami 
+      become: false
+      become_user: litesh
+    - name: know the logged user has root permissions or not
+      command: id -u 
+      become: false
+      become_user: litesh
