@@ -1,0 +1,16 @@
+- name: Create Users & become_user Demo
+  hosts: localhost
+  vars:
+    user_details:
+      - name: Lion
+        uid: 1011
+      - name: Tiger
+        uid: 1012
+  tasks:
+    - name: 'create user {{ item.name }} with uid  {{ item.uid }}'
+      user:
+        name: '{{ item.name }}'
+        state: present
+        uid: '{{ item.uid }}'
+      with_items: '{{ user_details }}'
+          
