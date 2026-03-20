@@ -58,8 +58,10 @@
   - name: 'Display student if marks GE 60 AND LE 79'
     debug:
       msg: 'Student Name: {{ item.name }} & marks obtained: {{ item.marks }}'
-    when: item.marks >= 60 and item.marks <=79
-    loop: '{{ student_details }}'
+    when: >
+      (item.marks >= 60) and 
+      (item.marks <=79)
+    with_items: '{{ student_details }}'
 
 - name: Demo when & loop directive04
   hosts: localhost
