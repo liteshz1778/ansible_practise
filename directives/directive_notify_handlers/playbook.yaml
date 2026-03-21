@@ -1,0 +1,21 @@
+- name: 'Install & Run Apache2 Webserver'
+  hosts: localhost
+  tasks:
+    - name: 'Install Apache2'
+      apt:
+        name: apache2
+        state: present
+    - name: 'Start Service'
+      service:
+        name: apache2
+        state: started
+    - name: 'Access the Default apache2 Webpage'
+      shell: 'curl $(hostname -i)'
+    - name: 'Configure Custom Webpages'
+      script: ./configure_custom_webpage.sh
+      notify: 'Restart Webserver Server'
+  handlers:
+    - name: 'Restart Webserver Server'
+      service:
+        name: apache2
+        state: restarted
