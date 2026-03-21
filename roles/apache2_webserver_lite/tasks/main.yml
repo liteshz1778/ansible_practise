@@ -1,0 +1,18 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for apache2_webserver_lite
+
+- name: 'Install Service: {{ item }}'
+  apt:
+    name: '{{ item }}'
+    state: present
+  loop: '{{ packages }}'
+- name: 'Start the apache2 service'
+  service:
+    name: apache2
+    state: started
+- name: 'access default webpage of apache2'
+  shell: 'curl $(hostname -i)'
+  notify: 'Restart Apache2 Service'
+- name: 'Execute tree command to directory structure of /etc/apache2'
+  command: 'tree /etc/apache2/'

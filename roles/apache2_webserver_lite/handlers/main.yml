@@ -1,0 +1,8 @@
+#SPDX-License-Identifier: MIT-0
+---
+# handlers file for apache2_webserver_lite
+
+- name: 'Restart Apache2 Service'
+  service:
+    name: apache2
+    state: restarted

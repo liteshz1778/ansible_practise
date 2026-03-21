@@ -1,0 +1,5 @@
+---
+- name: Demo Apache2 & tree 
+  hosts: localhost
+  roles:
+    - apache2_webserver_lite
