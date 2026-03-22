@@ -1,0 +1,13 @@
+{% for dummy_line in dummy_lines %}
+{% if dummy_line == 'first' %}
+'Hi, Dummy File Contains Starts'
+
+'This is {{ dummy_line }} line'
+{% elif dummy_line != 'first' and dummy_line != 'fifth' %}
+'This is {{ dummy_line }} line'
+{% elif dummy_line == 'fifth' %}
+'This is {{ dummy_line }} line'
+
+'Dummy File Contains Ends'
+{% endif %}
+{% endfor %}

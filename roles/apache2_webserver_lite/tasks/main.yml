@@ -16,3 +16,11 @@
   notify: 'Restart Apache2 Service'
 - name: 'Execute tree command to directory structure of /etc/apache2'
   command: 'tree /etc/apache2/'
+- name: 'Create demo directory to save the dummy_file.txt created thorugh Jinja2 template'
+  command: 'mkdir -p /root/demo_files'
+- name: 'Copy the Jinja2 dummy_file from local to target server'
+  template:
+    src: '../templates/dummy_file.txt.j2'
+    dest: '/root/demo_files/dummy_file.txt'
+- name: 'access the contain of dummy_file.txt'
+  command: 'cat /root/demo_files/dummy_file.txt'

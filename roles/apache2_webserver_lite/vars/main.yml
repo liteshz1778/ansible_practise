@@ -5,3 +5,9 @@
 packages:
   - apache2
   - tree
+dummy_lines:
+  - first
+  - second
+  - third
+  - forth
+  - fifth
