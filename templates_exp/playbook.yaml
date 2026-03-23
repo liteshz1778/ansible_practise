@@ -18,7 +18,7 @@
       command: 'mkdir -p ./demofiles'
     - name: 'Copy dummyText.txt file from templatesDemo to demofiles'
       template: 
-        src: './templates/dummyText.txt.js'
+        src: './templates/dummyText.txt.j2'
         dest: './demofiles/dummyText.txt'
     - name: 'access ./demofiles/dummyText.txt file'
       command: 'cat ./demofiles/dummyText.txt'
