@@ -1,0 +1,11 @@
+- name: Demo of Jinja2 Template with hostvars 
+  hosts: localhost
+  tasks:
+    - name: 'Create demoCSV directory to store the result of templating'
+      command: 'mkdir -p demoCSV'
+    - name: 'Create  inventory.csv file on remote host with hostvars details'
+      template: 
+        src: './templates/inventory.csv.js'
+        dest: './demoCSV/inventory.csv'
+    - name: 'access ./demoCSV/inventory.csv file'
+      command: 'cat ./demoCSV/inventory.csv'

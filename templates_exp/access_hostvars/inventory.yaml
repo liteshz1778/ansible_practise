@@ -1,0 +1,38 @@
+all:
+  children:
+    localhost:
+      hosts:
+        local:
+          ansible_host: $(hostname -i)
+          ansible_connection: local
+          ansible_port: 22
+          ansible_user: root
+          appStatus: 'Application is running on localhost'
+          supportEmail: 'devops.support@xyz_company.com'
+    web:
+      hosts:
+        web1:
+          ansible_host: "{{ lookup('env', 'WEB1_IP') }}"
+          ansible_connection: ssh
+          ansible_port: 22
+          ansible_user: root
+          ansible_ssh_pass: Passw0rd
+          appStatus: 'Application is running on web'
+          supportEmail: 'web_dev.support@xyz_company.com'
+    db:
+      hosts:
+        db1:
+          ansible_host: "{{ lookup('env', 'DB1_IP') }}"
+          ansible_connection: ssh
+          ansible_port: 22
+          ansible_user: root
+          ansible_ssh_pass: Passw0rd
+          appStatus: 'Application is running on db'
+          supportEmail: 'db_dev.support@xyz_company.com'
+    web_db:
+      children:
+        web:
+        db:
+      vars:
+          appStatus: 'Application is running on localhost'
+          supportEmail: 'devops.support@xyz_company.com'
