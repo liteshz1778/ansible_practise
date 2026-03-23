@@ -1,0 +1,24 @@
+---
+- name: 'Demo Jinja2 Template'
+  hosts: localhost
+  vars:
+    fruits:
+      - orange
+      - mango
+      - banana
+    vegetables:
+      - name: 'Okra'
+        price: '2$'
+      - name: 'cluster beans'
+        price: '1$'
+      - name: 'Brassica oleracea'
+        price: '0.7$'
+  tasks:
+    - name: 'create demofiles directory'
+      command: 'mkdir -p ./demofiles'
+    - name: 'Copy dummyText.txt file from templatesDemo to demofiles'
+      template: 
+        src: './templates/dummyText.txt.js'
+        dest: './demofiles/dummyText.txt'
+    - name: 'access ./demofiles/dummyText.txt file'
+      command: 'cat ./demofiles/dummyText.txt'

@@ -1,0 +1,13 @@
+'Hi, Available fruits are:'
+Orange
+Mango
+Banana
+
+
+'Vegetables are:'
+'vegetable: OKRA & its price is 2$'
+'vegetable: CLUSTER BEANS & its price is 1$'
+'vegetable: BRASSICA OLERACEA & its price is 0.7$'
+
+'Groceries are:'
+'['wheat', 'rice']'
