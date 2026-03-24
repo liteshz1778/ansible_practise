@@ -2,10 +2,20 @@
   hosts: localhost
   tasks:
     - name: 'Create demoCSV directory to store the result of templating'
-      command: 'mkdir -p demoCSV'
+      command: 'mkdir -p ./demoCSV'
     - name: 'Create  inventory.csv file on remote host with hostvars details'
       template: 
-        src: './templates/inventory.csv.js'
+        src: './templates/inventory.csv.j2'
         dest: './demoCSV/inventory.csv'
+    - name: 'display ansible_facts'
+      debug: 
+        msg: '{{ ansible_facts }}'
+    - name: 'Create ansible_facts_gather.csv.j2 on remote host with ansible_facts details'
+      template:
+        src: './templates/ansible_facts_gather.csv.j2'
+        dest: './demoCSV/ansible_facts_gather.csv'
     - name: 'access ./demoCSV/inventory.csv file'
-      command: 'cat ./demoCSV/inventory.csv'
+      shell: 'cat -n ./demoCSV/inventory.csv  ./demoCSV/ansible_facts_gather.csv'
+    - name: 'Remove demoCSV directory'
+      command: 'rm -rvf ./demoCSV'
+      tags: 'Remove demoCSV'

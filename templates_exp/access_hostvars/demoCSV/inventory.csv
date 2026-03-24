@@ -1,4 +1,0 @@
-ipaddress, connection, port, user, appStatus, supportEmail
-$(hostname -i), local, 22, root, Application is running on localhost, devops.support@xyz_company.com
-192.168.28.59, ssh, 22, root, Application is running on web, web_dev.support@xyz_company.com
-192.168.28.58, ssh, 22, root, Application is running on db, db_dev.support@xyz_company.com

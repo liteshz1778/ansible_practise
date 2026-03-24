@@ -16,7 +16,7 @@
   tasks:
     - name: 'create demofiles directory'
       command: 'mkdir -p ./demofiles'
-    - name: 'Copy dummyText.txt file from templatesDemo to demofiles'
+    - name: 'Copy dummyText.txt file from local to target host'
       template: 
         src: './templates/dummyText.txt.j2'
         dest: './demofiles/dummyText.txt'
