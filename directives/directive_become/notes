@@ -1,0 +1,41 @@
+create user & passwd for the same ---->
+user, passwd
+admin, admin
+web_user, web_user
+db_user, db_user
+
+---------------------------------
+
+Generate Private & Public Keys ---->
+ssh-keygen -f ~/.ssh/admin
+ssh-keygen -f ~/.ssh/web_user
+ssh-keygen -f ~/.ssh/db_user
+
+---------------------------------
+
+Copy keys from local to target hosts ---->
+ssh-copy-id -i ~/.ssh/admin admin@$WEB1_IP
+ssh-copy-id -i ~/.ssh/web_user web_user@$WEB1_IP
+
+ssh-copy-id -i ~/.ssh/admin admin@$DB1_IP
+ssh-copy-id -i ~/.ssh/db_user db_user@$DB1_IP
+
+NOTE: Don't create any passphrase
+
+---------------------------------
+
+Login to target host to validate the keys working fine or not ------->
+
+
+ssh -i ~/.ssh/admin admin@$WEB1_IP
+ssh -i ~/.ssh/web_user web_user@$WEB1_IP
+
+ssh -i ~/.ssh/admin admin@$DB1_IP
+ssh -i ~/.ssh/db_user db_user@$DB1_IP
+
+
+OR
+
+ansible -i ./inventory all -m ping
+
+---------------------------------

@@ -13,16 +13,16 @@ all:
           ansible_host: "{{ lookup('env', 'WEB1_IP') }}"
           ansible_connection: ssh
           ansible_port: 22
-          ansible_user: web_user
-          ansible_ssh_private_key_file: ~/.ssh/web_user
+          ansible_user: admin
+          ansible_ssh_private_key_file: ~/.ssh/admin
     db:
       hosts:
         db1:
           ansible_host: "{{ lookup('env', 'DB1_IP') }}"
           ansible_connection: ssh
           ansible_port: 22
-          ansible_user: db_user
-          ansible_ssh_private_key_file: ~/.ssh/db_user
+          ansible_user: admin
+          ansible_ssh_private_key_file: ~/.ssh/admin
     web_db:
       children:
         web:
