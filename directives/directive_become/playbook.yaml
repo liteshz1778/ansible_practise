@@ -1,15 +1,12 @@
-- name: 'Demo become directive with false value'
+- name: 'Demo become directive'
   hosts: web
+  vars:
+    ansible_ssh_private_key_file: ~/.ssh/admin
   tasks:
-    - name: list out the users
+    - name: 'list out the users'
       command: getent passwd
-      become: false
-      become_user: litesh
-    - name: Know the logged in user
-      shell: whoami 
-      become: false
-      become_user: litesh
-    - name: know the logged user has root permissions or not
-      command: id -u 
-      become: false
-      become_user: litesh
+    - name: 'becoming another user & executing whoami command'
+      command: whoami
+      become: yes
+      become_user: admin
+      become_method: sudo
