@@ -39,3 +39,10 @@ OR
 ansible -i ./inventory all -m ping
 
 ---------------------------------
+
+Adhoc commands:
+
+ansible localhost -m archive -a 'path=./tmp_output dest=./tmp_out.tar.gz'
+
+ansible -i ./inventory.yaml localhost -m unarchive -a 'src=./tmp_out.tar.gz dest=./dummy_unarchive_files'
+
