@@ -1,0 +1,48 @@
+- name: Demo archive & unarchive module on target host
+  hosts: web
+  tasks:
+    - name: create empty  directory /demofiles
+      file:
+        path: /demofiles/
+        state: directory
+
+    - name: create empty file /demofiles/demotest1.txt
+      file:
+        path: /demofiles/demotest1.txt
+        state: touch
+
+    - name: Add a demo line
+      lineinfile:
+        path: /demofiles/demotest1.txt
+        line: "Hi this Litesh Zadane here. Learning Ansible"
+
+    - name: see the content of /demofiles/demotest1.txt file
+      command: cat /demofiles/demotest1.txt
+
+    - name: create sample files for archive demo
+      script: filescript.sh 10
+      register: result_file_script_run
+      changed_when: result_file_script_run.rc == 0 and result_file_script_run.stdout == ""
+
+    - name: Create archive of /demofiles/demo_archive directory in demofiles
+      archive:
+        path: ./demofiles/demo_archive
+        dest: ./demofiles/demo_archive.tar.gz
+        mode: '0777'
+
+    - name: remove unarchive/demo*file.txt files if already exists
+      command: rm -rvf ./demofiles/unarchive_files/demo*
+      register: result_remove_unarchive_files
+      changed_when: result_remove_unarchive_files.rc == 0 and result_remove_unarchive_files.stdout == ""
+
+    - name: Unarchive /demofiles/demo_archive.tar.gz to /demofiles/unarchive_files
+      unarchive:
+        src: ./demofiles/demo_archive.tar.gz
+        dest: '{{ ansible_facts.env.PWD }}/demofiles/unarchive_files'
+        remote_src: yes
+
+    - name: Remove demofiles created through script & unarchive file
+      command: rm -rvf ./demofiles/demo_archive ./demofiles/demo_archive.tar.gz ./demofiles/unarchive_files ./demofiles/sample_text_file.txt
+      tags: 'remove_files'
+      register: result_newly_created_files_from_demofiles
+      changed_when: result_newly_created_files_from_demofiles.rc == 0 and result_newly_created_files_from_demofiles.stdout == ""

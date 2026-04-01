@@ -3,14 +3,14 @@ all:
     localhost:
       hosts:
         local:
-          ansible_host: 192.168.186.232
+          ansible_host: $(hostname -i)
           ansible_connection: local
           ansible_port: 22
           ansible_user: root
     web:
       hosts:
         web1:
-          ansible_host: 192.168.99.177
+          ansible_host: "{{ lookup('env', 'WEB1_IP') }}"
           ansible_connection: ssh
           ansible_port: 22
           ansible_user: root
@@ -18,7 +18,7 @@ all:
     db:
       hosts:
         db1:
-          ansible_host: 192.168.99.177
+          ansible_host: "{{ lookup('env', 'DB1_IP') }}"
           ansible_connection: ssh
           ansible_port: 22
           ansible_user: root
