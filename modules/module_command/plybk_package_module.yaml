@@ -1,0 +1,18 @@
+- name: Install & unistall nginx service using package module
+  hosts: web
+  tasks:
+    - name: Installing nginx server
+      package: 
+        name: nginx
+        state: latest
+    - name: Start nginx service
+      service: 
+        name: nginx
+        state: started
+        enabled: yes
+    - name: access default nginx webpage
+      shell: curl $(hostname -i); sleep 60
+    - name: Uninstall nginx service
+      package:
+        name: nginx
+        state: absent

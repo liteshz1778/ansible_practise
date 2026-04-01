@@ -9,6 +9,7 @@
       service:
         name: nginx
         state: started
+        enabled: yes
     - name: Get the IP Address of current server
       command: hostname -i
       register: result

@@ -1,0 +1,11 @@
+- name: Create firewalld rule
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Creating firewalld rule for http service
+      firewalld:
+        rich_rule: rule family=ipv4 source address='{{ lookup("env","WEB1_IP")}}' service name=http reject
+        zone: public
+        state: enabled
+        permanent: true
+        immediate: true
