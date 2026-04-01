@@ -1,0 +1,25 @@
+- name: To check the health status of target host
+  hosts: web_db
+  tasks:
+    - package:
+        name: cron
+        state: present
+    - service:
+        name: cron
+        state: started
+        enabled: yes
+    - copy:
+        src: ./target_host_helath_check.sh
+        dest: /target_host_helath_check.sh
+    - cron: 
+        name: Checking the helath staus
+        job: sh ./target_host_helath_check.sh
+    - command: crontab -l
+      register: result_cronjobs
+    - debug:
+        var: result_cronjobs.stdout_lines
+    - copy: 
+        src: '{{ result_cronjobs.stdout_lines }}'
+        dest: './cronjob_logs/job_execution_log_$(date +%Y%m%d_%H%M%S).txt'
+      delegate_to: localhost
+
