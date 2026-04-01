@@ -1,0 +1,32 @@
+- name: 'Demo creating {{ username }} user for target servers & also creating ssh keys for them'
+  hosts: web_db
+  vars:
+    username: admin
+    userid: 1011
+    groupname: admin
+  tasks:
+    - name: 'Create {{ groupname }} group'
+      group:
+        name: '{{ groupname }}'
+
+    - name: 'Create {{ username }} user'
+      user:
+        name: '{{ username }}'
+        uid: '{{ userid }}'
+        state: present
+        group: '{{ groupname }}'
+        shell: /bin/bash
+
+    - name: 'Create Private & Public keys for {{ username }}'
+      openssh_keypair:
+        path: '~/.ssh/{{ username }}'
+        type: rsa
+        passphrase: ""
+        state: present
+      delegate_to: localhost
+    
+    - name: 'Copy & configure the SSH Keys in target hosts'
+      authorized_key:
+        user: '{{ username }}'
+        key: "{{ lookup('file','~/.ssh/' + username + '.pub') }}"
+        manage_dir: true
