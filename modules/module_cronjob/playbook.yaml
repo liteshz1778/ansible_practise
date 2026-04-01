@@ -14,6 +14,11 @@
     - cron: 
         name: Checking the health staus
         job: sh ./target_host_health_check.sh
+        minute: 05
+        hour: 06
+        day: 1-31
+        month: 1-12
+        weekday: 0-6
     - command: crontab -l
       register: result_cronjobs
     - debug:
@@ -26,4 +31,3 @@
       delegate_to: localhost
       run_once: true
     - shell: 'cat ./cronjob_logs/{{ inventory_hostname }}_cronjob_log.txt; sleep 60; rm -rvf ./cronjob_logs'
-     
