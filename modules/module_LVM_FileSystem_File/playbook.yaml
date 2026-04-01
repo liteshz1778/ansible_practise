@@ -1,0 +1,51 @@
+- name: Create Logical Volumes, Filesystem & files in locahost
+  hosts: localhost
+  tasks:
+    - name: Install lvm2
+      package:
+        name: lvm2
+        state: present
+      tags: depends_on_system_config
+    - name: create logical volume group
+      lvg:
+        vg: vg1
+        pvs: /dev/sda
+      tags: depends_on_system_config
+    - name: create logical volume in vg1
+      lvol:
+        vg: vg1
+        lv: vol1
+        size: 2g
+      tags: depends_on_system_config
+    - name: create filesystem for vol1
+      filesystem:
+        fstypre: ext4
+        dev: /dev/vg1/vol1
+        opts: -cc
+      tags: depends_on_system_config
+    - name: create mountpoint for vol1
+      mount:
+        fstypre: ext4
+        src: /dev/vg1/vol1
+        path: /opt/app
+        state: mounted
+      tags: depends_on_system_config
+    - name: create directory in /opt/app directory
+      file: 
+        path: /opt/app/web
+        state: directory
+      tags: 
+        - create dir
+        - not_depends_on_system_config
+    - name: create index.html in /opt/app/web directory
+      file:
+        path: /opt/app/web/index.html
+        state: touch 
+      tags:
+        - create file
+        - not_depends_on_system_config
+    - name: list out the file in /opt/app/web directory
+      shell: ls /opt/app/web
+      tags:
+        - list out the files
+        - not_depends_on_system_config
