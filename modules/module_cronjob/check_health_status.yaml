@@ -29,5 +29,10 @@
         content: '{{ result_cronjobs.stdout }}'
         dest: './cronjob_logs/{{ inventory_hostname }}_cronjob_log.txt'
       delegate_to: localhost
+        #run_once: true
+    - shell: 'cat ./cronjob_logs/{{ inventory_hostname }}_cronjob_log.txt'
+      delegate_to: localhost
+    - shell: 'rm -rvf ./cronjob_logs/* ./cronjob_logs'
+      delegate_to: localhost
       run_once: true
-    - shell: 'cat ./cronjob_logs/{{ inventory_hostname }}_cronjob_log.txt; sleep 60; rm -rvf ./cronjob_logs'
+      
