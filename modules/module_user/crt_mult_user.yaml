@@ -1,0 +1,44 @@
+- name: 'Demo creating multiple users for target servers & also creating ssh keys for them'
+  hosts: web
+  vars:
+    users:
+      - username: admin
+        userid: 1011
+        groupname: admin
+      - username: web_user
+        userid: 1012
+        groupname: web_user
+  tasks:
+    - name: 'Create {{ item.groupname }} group'
+      group:
+        name: '{{ item.groupname }}'
+      loop: '{{ users }}'
+      tags: crt_grp
+
+    - name: 'Create {{ item.username }} user'
+      user:
+        name: '{{ item.username }}'
+        uid: '{{ item.userid }}'
+        state: present
+        group: '{{ item.groupname }}'
+        shell: /bin/bash
+      loop: '{{ users }}'
+      tags: crt_usr
+
+    - name: 'Create Private & Public keys for {{ item.username }}'
+      openssh_keypair:
+        path: '~/.ssh/{{ item.username }}'
+        type: rsa
+        passphrase: ""
+        state: present
+      delegate_to: localhost
+      loop: '{{ users }}'
+      tags: crt_keys
+    
+    - name: 'Copy & configure the SSH Keys in target hosts'
+      authorized_key:
+        user: '{{ item.username }}'
+        key: "{{ lookup('file','~/.ssh/' + item.username + '.pub') }}"
+        manage_dir: true
+      loop: '{{ users }}'
+      tags: crt_keys
