@@ -2,28 +2,35 @@
   hosts: localhost
   become: true
   tasks:
-    - name: Install firewalld svc
+    - name: 'Install {{ item }} svc'
       package: 
-        name: 
-          - python3-selinux
-          - python3-semanage
-          - firewalld
+        name: '{{ item }}'
         state: present
+      loop: 
+        - firewalld
+        - iputils 
     - name: Start & Enable svc
       service:
         name: firewalld
         state: started
-    - name: Creating firewalld rule for icmp protocol w.r.t WEB target host
+    - name: 'Creating firewalld rule for {{ item }} protocol w.r.t WEB target host'
       firewalld:
-        rich_rule: 'rule family="ipv4" source address="{{ lookup("env", "WEB1_IP") }}" protocol value="icmp" accept'
+        rich_rule: 'rule family="ipv4" source address="172.21.112.1" protocol value="{{ item }}" accept'
         zone: internal
         state: enabled
         permanent: true
         immediate: true
-    - name: Creating firewalld rule for icmp protocol w.r.t DB1_IP target host
-      firewalld:
-        rich_rule: 'rule family="ipv4" source address="{{ lookup("env", "WEB1_IP") }}" protocol value="icmp" reject'
+      with_items:
+        - icmp
+    - firewalld:
         zone: internal
+        rich_rule: 'rule family="ipv4" source address="{{ item.source }}" service name="{{ item.svc_name }}" accept'
         state: enabled
         permanent: true
         immediate: true
+      loop:
+        - { svc_name: "http", source: "172.21.112.1" }
+    - name: reload firewalld svc
+      service:
+        name: firewalld
+        state: reloaded
