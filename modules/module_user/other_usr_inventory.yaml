@@ -1,0 +1,31 @@
+all:
+  vars:
+    username: admin
+  children:
+    localhost:
+      hosts:
+        local:
+          ansible_host: $(hostname -i)
+          ansible_connection: local
+          ansible_port: 22
+          ansible_user: root
+    web:
+      hosts:
+        web1:
+          ansible_host: "{{ lookup('env', 'WEB1_IP') }}"
+          ansible_connection: ssh
+          ansible_port: 22
+          ansible_user: '{{ username }}'
+          ansible_ssh_private_key_file: '~/.ssh/{{ username }}'
+    db:
+      hosts:
+        db1:
+          ansible_host: "{{ lookup('env', 'DB1_IP') }}"
+          ansible_connection: ssh
+          ansible_port: 22
+          ansible_user: '{{ username }}'
+          ansible_ssh_private_key_file: '~/.ssh/{{ username }}'
+    web_db:
+      children:
+        web:
+        db:
