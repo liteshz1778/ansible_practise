@@ -34,3 +34,6 @@
       service:
         name: firewalld
         state: reloaded
+    - name: 'To list out the rules'
+      become: true
+      command: 'firewalld-cmd --list-all'
