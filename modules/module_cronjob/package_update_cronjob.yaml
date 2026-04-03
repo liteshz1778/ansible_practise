@@ -11,7 +11,7 @@
     - cron: 
         name: Update package manager cronjob
         job: 'apt-get update -y'
-        minute: o0
+        minute: 00
         hour: 12
         day: '*/7'
         month: '*'
