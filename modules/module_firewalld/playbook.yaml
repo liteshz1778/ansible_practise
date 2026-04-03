@@ -2,10 +2,19 @@
   hosts: localhost
   become: true
   tasks:
-    - name: Creating firewalld rule for http service
+    - name: Install firewalld svc
+      package: 
+        name: firewalld
+        state: present
+    - name: Start & Enable svc
+      service:
+        name: firewalld
+        state: started
+    - name: Creating firewalld rule for icmp protocol
       firewalld:
-        rich_rule: rule family=ipv4 source address='{{ lookup("env","WEB1_IP")}}' service name=http reject
-        zone: public
+        service: icmp
+        source: "{{ lookup('env', 'WEB1_IP')}}"
+        zone: internal
         state: enabled
         permanent: true
         immediate: true
