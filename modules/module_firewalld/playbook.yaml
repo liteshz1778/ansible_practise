@@ -4,16 +4,25 @@
   tasks:
     - name: Install firewalld svc
       package: 
-        name: firewalld
+        name: 
+          - python3-selinux
+          - python3-semanage
+          - firewalld
         state: present
     - name: Start & Enable svc
       service:
         name: firewalld
         state: started
-    - name: Creating firewalld rule for icmp protocol
+    - name: Creating firewalld rule for icmp protocol w.r.t WEB target host
       firewalld:
-        service: icmp
-        source: "{{ lookup('env', 'WEB1_IP')}}"
+        rich_rule: 'rule family="ipv4" source address="{{ lookup("env", "WEB1_IP") }}" protocol value="icmp" accept'
+        zone: internal
+        state: enabled
+        permanent: true
+        immediate: true
+    - name: Creating firewalld rule for icmp protocol w.r.t DB1_IP target host
+      firewalld:
+        rich_rule: 'rule family="ipv4" source address="{{ lookup("env", "WEB1_IP") }}" protocol value="icmp" reject'
         zone: internal
         state: enabled
         permanent: true

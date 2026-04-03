@@ -9,7 +9,19 @@
     - name: Copy the demofile2.txt to demofiles directory
       copy:
         src: ./sample_text_file.txt
-        dest: demofiles
+        dest: ./demofiles
+
+    - command: 'cat ./demofiles/sample_text_file.txt'
+
+    - name: 'replace the content of sample_text_file.txt file'
+      replace: 
+        path: ./demofiles/sample_text_file.txt
+        regexp: '^(Hi, This is demofile2 content)+$'
+        replace: |
+          "Hi, This is demofile2 content & 
+           also its demo of copy & replace module"
+
+    - command: 'cat ./demofiles/sample_text_file.txt'
 
     - name: create sample files for archive demo
       script: filescript.sh 10
