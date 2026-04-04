@@ -1,0 +1,11 @@
+- name: 'Demo setup module'
+  hosts: all
+  tasks:
+    - setup:
+        filter:
+          - "ansible_distribution*"
+          - "ansible_default_ip*"
+          - "ansible_env"
+      register: result
+    - debug:
+        var: result 
