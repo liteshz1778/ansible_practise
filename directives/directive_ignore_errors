@@ -1,0 +1,18 @@
+- name: check whether git is not installed or not on localhost
+  hosts: localhost
+  tasks:
+    - name: List out the git package if present
+      command: dpkg -l | grep -i git
+      register: git_presence_result
+      ignore_errors: true
+
+    - debug:
+        var: git_presence_result
+
+    - name: Execute if git is not installed
+      shell: echo "Oops, git is missing" >> /tmp/is_git_installed.txt
+      when: git_presence_result.rc != 0
+
+    - name: Execute if git is installed
+      shell: git --version >> /tmp/is_git_installed.txt
+      when: git_presence_result.rc == 0
