@@ -1,0 +1,35 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    remote_dest: /usr/local/bin/report_status.sh
+  tasks:
+    - copy:
+        src: "./report_status.sh"
+        dest: "{{remote_dest}}"
+      when: copy_file_only_if is defined and copy_file_only_if | default("false") | bool
+
+    - command: "cat '{{remote_dest}}'"
+
+    - stat:
+        path: "{{remote_dest}}"
+      register: file_status
+
+    - debug:
+        var: file_status
+
+    - name: Commenting if report_status.sh file is not executeable
+      command: echo "File report_status.sh is not executable, making it executable..." >> /tmp/change.log
+      when: file_status.stat.exists == false and file_status.stat.executable == false
+
+    - name: Make the script executable
+      file:
+        path: "{{remote_dest}}"
+        mode: "0755"
+      when: file_status.stat.executable == false
+
+    - name: to check whether the report_status.sh is vulnerable or not
+      shell: bash "{{remote_dest}}"
+      register: result_script_vulnerability
+
+    - debug:
+        var: result_script_vulnerability.stdout
