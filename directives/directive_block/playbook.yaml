@@ -1,0 +1,50 @@
+- name: Demo block Directive
+  hosts: localhost
+  become: yes
+  tasks:
+    - block:
+        - name: 'Install {{ item }} svc'
+          package:
+            name: '{{ item }}'
+            state: present
+          loop:
+            - nginx
+            - haproxy
+            - tree
+        - name: 'Start & enable {{ item }} svc'
+          service:
+            name: '{{ item }}'
+            state: started
+          loop:
+            - nginx
+            - haproxy
+            - mysql
+      rescue:
+        - debug:
+            msg: 'Hi, Rescue Block is started'
+        - mail: 
+            to: zadane1778.litesh@gmail.com
+            subject: Error while installing packages
+            body: |
+              'Hi,
+                Failed task is : {{ ansible_failed_task.name }} & its 
+                Result is: {{ ansible_failed_result.msg }}'
+          ignore_errors: true
+        - debug:
+            msg: 'Hi, Rescue Block is ended'
+      always:
+        - debug:
+            msg: 'Hi, Always Block is started'
+        - mail:
+            to: zadane1778.litesh@gmail.com
+            subject: Installation Task Completion Email
+            body: |
+              'Hi, Team Installing of package is completed.
+               Pls refer below mail chain for any errors 
+              
+              Mail Subject: Error while installing packages'
+          ignore_errors: true
+        - name: access default nginx service webpage
+          shell: 'curl $(hostname -i)'
+        - debug:
+            msg: 'Hi, Always Block is ended'
