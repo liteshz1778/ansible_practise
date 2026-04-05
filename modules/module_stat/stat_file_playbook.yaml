@@ -1,0 +1,35 @@
+- name: 'Demo stat module for file'
+  hosts: localhost
+  vars: 
+    target_file: './demoDir/demo.txt'
+  tasks:
+    - stat:
+        path: './demoDir/demo.txt'
+      register: target_file_result
+
+    - name: Display stat for File
+      debug:
+        var: target_file_result.stat
+
+    - name: Display whether file exists for not
+      debug:
+        var: target_file_result.stat.exists
+
+    - name: Display file type whether its regular file
+      debug:
+        var: target_file_result.stat.isreg
+    
+    - name: Display file permissions
+      debug:
+        var: target_file_result.stat.mode
+
+    - name: Display file user & owner 
+      debug:
+        msg: |
+          ' userid: {{ target_file_result.stat.uid}}
+            groupid: {{ target_file_result.stat.gid}}
+            groupname: {{ target_file_result.stat.gr_name}}'
+
+    - name: Display file size
+      debug:
+        var: target_file_result.stat.size

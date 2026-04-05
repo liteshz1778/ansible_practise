@@ -1,9 +1,0 @@
-- name: 'Demo stat module'
-  hosts: localhost
-  tasks:
-    - stat:
-        path: './demoDir/demo.txt'
-      register: result
-    - debug:
-        var: result.stat
-    - shell: echo "{{ result.stat }}" > /tmp/by_ansible

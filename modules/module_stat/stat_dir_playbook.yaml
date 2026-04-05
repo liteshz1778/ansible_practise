@@ -1,0 +1,35 @@
+- name: 'Demo stat module for dir'
+  hosts: localhost
+  vars: 
+    target_dir: './demoDir'
+  tasks:
+    - stat:
+        path: './demoDir'
+      register: target_dir_result
+
+    - name: Display stat for directory
+      debug:
+        var: target_dir_result.stat
+
+    - name: Display whether directory exists for not
+      debug:
+        var: target_dir_result.stat.exists
+
+    - name: Display directory type whether its directory or not
+      debug:
+        var: target_dir_result.stat.isdir
+    
+    - name: Display directory permissions
+      debug:
+        var: target_dir_result.stat.mode
+
+    - name: Display directory user & owner 
+      debug:
+        msg: |
+          ' userid: {{ target_dir_result.stat.uid}}
+            groupid: {{ target_dir_result.stat.gid}}
+            groupname: {{ target_dir_result.stat.gr_name}}'
+
+    - name: Display directory size
+      debug:
+        var: target_dir_result.stat.size
