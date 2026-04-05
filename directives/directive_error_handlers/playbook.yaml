@@ -1,6 +1,6 @@
-- name: check whether git is not installed or not on localhost
+- name: Demo Error Handlers Directives
   hosts: all 
-  any_errors_fatal: true
+  any_errors_fatal: false
   max_fail_percentage: 25
   tasks:
     - name : Install git 
@@ -22,13 +22,19 @@
 
     - debug: 
         msg: |
-          'git --version command output is ------> {{ git_presence_result }}'
+          'git --version command output is ------> 
+          
+          {{ git_presence_result }}'
+
+    - name: 'clear content from /tmp/is_git_installed.txt file'
+      command: echo " " > /tmp/is_git_installed.txt
 
     - name: Execute if git is not installed
       lineinfile:
         path: '/tmp/is_git_installed.txt'
         line: "Oops, git is missing"
       when: git_presence_result.rc != 0
+        #failed_when: git_presence_result.rc != 0
 
     - name: Execute if git is installed
       lineinfile:
