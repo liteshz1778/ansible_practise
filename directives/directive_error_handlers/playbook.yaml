@@ -1,0 +1,37 @@
+- name: check whether git is not installed or not on localhost
+  hosts: all 
+  any_errors_fatal: true
+  max_fail_percentage: 25
+  tasks:
+    - name : Install git 
+      package: 
+        name: git
+        state: present
+
+    - name: 'Remove git from localhost'
+      package: 
+        name: git 
+        state: absent
+      delegate_to: localhost
+      ignore_errors: true
+
+    - name: 'Run git --version command to check the installed state'
+      command: git --version
+      register: git_presence_result
+      ignore_errors: true
+
+    - debug: 
+        msg: |
+          'git --version command output is ------> {{ git_presence_result }}'
+
+    - name: Execute if git is not installed
+      lineinfile:
+        path: '/tmp/is_git_installed.txt'
+        line: "Oops, git is missing"
+      when: git_presence_result.rc != 0
+
+    - name: Execute if git is installed
+      lineinfile:
+        path: '/tmp/is_git_installed.txt'
+        line: '{{ git_presence_result }}'
+      when: git_presence_result.rc == 0
