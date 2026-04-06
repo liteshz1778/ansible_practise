@@ -1,0 +1,19 @@
+---
+- name: 'Demo Linear & serial that is batch or subset of host run'
+  hosts: all
+  strategy: linear
+  serial: 2
+  gather_facts: no
+  tasks:
+    - name: Install nginx
+      package:
+        name: nginx
+        state: present
+
+    - name: start service
+      service:
+        name: nginx
+        state: started
+    
+    - name: access the default webpage of nginx
+      shell: 'curl $(hostname -i)' 
