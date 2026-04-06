@@ -21,20 +21,16 @@
             - mysql
       rescue:
         - debug:
-            msg: 'Hi, Rescue Block is started'
-        - mail: 
-            to: zadane1778.litesh@gmail.com
-            subject: Error while installing packages
-            body: |
-              'Hi,
-                Failed task is : {{ ansible_failed_task.name }} & its 
+            msg: 'Rescue Block started executing'
+        - debug: 
+            msg: |
+              'Failed task is : {{ ansible_failed_task }} 
                 Result is: {{ ansible_failed_result.msg }}'
-          ignore_errors: true
         - debug:
-            msg: 'Hi, Rescue Block is ended'
+            msg: 'Rescue Block execution ended'
       always:
         - debug:
-            msg: 'Hi, Always Block is started'
+            msg: 'Always Block started executing'
         - mail:
             to: zadane1778.litesh@gmail.com
             subject: Installation Task Completion Email
@@ -47,4 +43,4 @@
         - name: access default nginx service webpage
           shell: 'curl $(hostname -i)'
         - debug:
-            msg: 'Hi, Always Block is ended'
+            msg: 'Always Block execution ended'
