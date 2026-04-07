@@ -1,0 +1,5 @@
+ansible_connection: ssh
+ansible_port: 22
+ansible_user: root
+ansible_ssh_pass: Passw0rd
+comment_message: 'This is a web_server'

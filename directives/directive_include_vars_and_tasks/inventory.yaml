@@ -1,0 +1,18 @@
+all:
+  children:
+    localhost:
+      hosts:
+        local:
+          ansible_host: $(hostname -i)
+    web:
+      hosts:
+        web1:
+          ansible_host: "{{ lookup('env', 'WEB1_IP') }}"
+    db:
+      hosts:
+        db1:
+          ansible_host: "{{ lookup('env', 'DB1_IP') }}"
+    web_db:
+      children:
+        web:
+        db:

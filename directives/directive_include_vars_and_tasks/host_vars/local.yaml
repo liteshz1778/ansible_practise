@@ -1,0 +1,4 @@
+ansible_connection: local
+ansible_port: 22
+ansible_user: root
+comment_message: 'This is a local_server'
