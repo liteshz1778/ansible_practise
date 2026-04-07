@@ -1,0 +1,58 @@
+- name: Demo Java Login Webpage App over tomcat server
+  hosts: web
+  tasks:
+    - name: 'Install {{ item }} package'
+      package:
+        name: '{{ item }}'
+        state: present
+      loop:
+        - apt-utils
+        - openjdk-17-jre-headless:amd64
+        - openjdk-17-jre:amd64
+        - openjdk-17-jdk:amd64
+        - openjdk-17-jdk-headless:amd64
+
+    - name: 'Create tomcat group'
+      group:
+        name: tomcat
+
+    - name: 'Create tomcat user'
+      user:
+        name: tomcat
+        state: present
+        uid: 1011
+        group: tomcat
+        home: /usr/share/tomcat
+        createhome: false
+      become: true
+      become_method: sudo
+
+    - name: 'Download Tomcat'
+      get_url:
+        url: 'https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.117/bin/apache-tomcat-9.0.117.tar.gz'
+        dest: '/opt/apache-tomcat-9.0.117.tar.gz'
+
+    - name: 'Extract apache-tomcat-9.0.117.tar.gz file to /opt/ directory'
+      unarchive:
+        src: '/opt/apache-tomcat-9.0.117.tar.gz'
+        dest: '/opt/apache-tomcat-9.0.117'
+        remote_src: true
+
+    - name: 'Create SymLink for /opt/apache-tomcat-9.0.117 to /usr/share/tomcat/apache-tomcat-9.0.117'
+      file:
+        src: '/opt/apache-tomcat-9.0.117'
+        path: '/usr/share/tomcat/'
+        state: link
+
+    - name: 'Change ownership of /usr/share/tomcat/apache-tomcat-9.0.117 directory'
+      file:
+        path: '/usr/share/tomcat/'
+        owner: tomcat
+        group: tomcat
+        state: directory
+      become: true
+
+    - name: 'Start tomcat server'
+      shell: '/usr/share/tomecat/bin/cateline.sh start'
+      become: true
+      become_user: root
