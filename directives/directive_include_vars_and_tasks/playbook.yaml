@@ -1,7 +1,4 @@
 - name: Access the host vars & group vars 
   hosts: all
   tasks:
-    - debug: 
-        var: hostvars[inventory_hostname].comment_message
-    - debug:
-        var: hostvars[inventory_hostname].support_email
+    - include_tasks: ./tasks/myTasks.yaml

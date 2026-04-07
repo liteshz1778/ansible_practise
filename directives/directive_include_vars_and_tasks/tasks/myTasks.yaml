@@ -1,0 +1,10 @@
+- debug:
+    var: hostvars[inventory_hostname].comment_message
+- debug:
+    var: hostvars[inventory_hostname].support_email
+- include_vars:
+    file: ./other_vars/other_info.yaml
+    name: other_info_access
+- debug:
+    var: other_info_access.compliant_email
+  run_once: true
