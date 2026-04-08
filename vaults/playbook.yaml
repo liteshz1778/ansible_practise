@@ -1,0 +1,8 @@
+- hosts: all
+  gather_facts: no
+  tasks:
+    - include_vars: 
+        file: ./user_secrets.yaml
+        name: users
+    - include_tasks: tasks/user_listout.yaml
+    - include_tasks: tasks/copy_users.yaml

@@ -1,0 +1,13 @@
+- debug: 
+    msg: |
+      'Configured Users are: 
+        
+      {{ item }}' 
+  loop: '{{ users.user_details }}'
+  delegate_to: localhost
+  run_once: true
+
+- debug: 
+    msg: 'Support staff email: {{ users.support_email }}'
+  delegate_to: localhost
+  run_once: true

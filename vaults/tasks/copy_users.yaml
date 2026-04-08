@@ -1,0 +1,8 @@
+- name: copy user_details to target
+  copy:
+    src: ../user_secrets.yaml
+    dest: /tmp/user_secrets.yaml
+
+- command: 'cat /tmp/user_secrets.yaml'
+  register: result
+  changed_when: result.rc != 0
