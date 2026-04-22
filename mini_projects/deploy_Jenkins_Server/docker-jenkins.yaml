@@ -1,0 +1,39 @@
+- name: Demo Jenkins Server Deployment using docker
+  hosts: localhost
+  become: true
+  vars: 
+    jenkins_home: '/opt/jenkins_home'
+  tasks:
+    - name: 'Install {{ item }}package'
+      package:
+        name: '{{ item }}'
+        state: present
+      loop: 
+        - docker
+
+    - name: Start/Enable {{ item }} 
+      service:
+        name: jenkins
+        state: started
+        enabled: true
+      loop: 
+        - docker
+
+    - name: Create Jenkins Home directory
+      file:
+        path: '{{ jenkins_home }'
+        state: directory
+        mode: '7555'
+
+    - name: Running Jenkins as Container
+      docker_container:
+        name: jenkins
+        image: jenkins/jenkins:lts
+        state: started 
+        restart_policy: always
+        ports:
+          - 8080: 8080
+          - 9090: 9090
+        volumes:
+          - "{{ jenkins_home }}:/var/jenkins_home"
+          - "/var/run/docker.sock:/var/run/docker.sock"

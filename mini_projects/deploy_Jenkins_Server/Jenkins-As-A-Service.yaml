@@ -1,4 +1,4 @@
-- name: Demo Jenkins Server Deployment
+- name: Demo Jenkins Server as a Service
   hosts: localhost
   become: true
   tasks:

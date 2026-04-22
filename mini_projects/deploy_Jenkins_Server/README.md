@@ -1,1 +1,1 @@
-# Deploying Jenkins as Service
+# Deploying Jenkins Server
