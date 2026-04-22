@@ -13,7 +13,7 @@
 
     - name: Start/Enable {{ item }} 
       service:
-        name: jenkins
+        name: {{ item }}
         state: started
         enabled: true
       loop: 
@@ -21,7 +21,7 @@
 
     - name: Create Jenkins Home directory
       file:
-        path: '{{ jenkins_home }'
+        path: '{{ jenkins_home }}'
         state: directory
         mode: '7555'
 
