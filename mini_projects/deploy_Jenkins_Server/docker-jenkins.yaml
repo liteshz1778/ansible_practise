@@ -11,9 +11,9 @@
       loop: 
         - docker
 
-    - name: Start/Enable {{ item }} 
+    - name: 'Start/Enable {{ item }} svc'
       service:
-        name: {{ item }}
+        name: '{{ item }}'
         state: started
         enabled: true
       loop: 
@@ -22,18 +22,28 @@
     - name: Create Jenkins Home directory
       file:
         path: '{{ jenkins_home }}'
+        owner: 1000
+        group: 1000
         state: directory
         mode: '7555'
 
+    - name: Set jenkins volume permissions
+      file:
+        path: /opt/jenkins_home
+        owner: 1000
+        group: 1000
+        recurse: yes
+
     - name: Running Jenkins as Container
+      become: true
       docker_container:
         name: jenkins
         image: jenkins/jenkins:lts
         state: started 
         restart_policy: always
         ports:
-          - 8080: 8080
-          - 9090: 9090
+          - "8080:8080"
+          - "50000:50000"
         volumes:
           - "{{ jenkins_home }}:/var/jenkins_home"
           - "/var/run/docker.sock:/var/run/docker.sock"
