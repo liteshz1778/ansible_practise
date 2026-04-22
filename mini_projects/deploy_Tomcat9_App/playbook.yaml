@@ -1,10 +1,13 @@
-- name: Demo Java Login Webpage App over tomcat server
+- name: Demo Tomcat Server
   hosts: localhost
   become: true
+  vars:
+    java_package_name: java-11-amazon-corretto.x86_64
+    tomcat_package_name: apache-tomcat-9.0.117
   tasks:
     - name: 'Install java package'
       package:
-        name: 'java-11-amazon-corretto.x86_64'
+        name: '{{ java_package_name }}'
         state: present
       tags: 'Install-java'
 
@@ -25,25 +28,25 @@
 
     - name: 'Download Tomcat'
       get_url:
-        url: 'https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.117/bin/apache-tomcat-9.0.117.tar.gz'
+        url: 'https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.117/bin/{{ tomcat_package_name }}.tar.gz'
         dest: '/opt/'
       tags: "Install-tomcat"
 
-    - name: 'Extract apache-tomcat-9.0.117.tar.gz file to /opt/ directory'
+    - name: 'Extract {{ tomcat_package_name }}.tar.gz file to /opt/ directory'
       unarchive:
-        src: '/opt/apache-tomcat-9.0.117.tar.gz'
+        src: '/opt/{{ tomcat_package_name }}.tar.gz'
         dest: '/opt/'
         remote_src: true
       tags: "Install-tomcat"
 
     - name: Create symlink for Tomcat
       file:
-        src: /opt/apache-tomcat-9.0.117
+        src: /opt/{{ tomcat_package_name }}
         path: /usr/share/tomcat
         state: link
       tags: "Install-tomcat"
 
-    - name: 'Change ownership of /usr/share/tomcat/apache-tomcat-9.0.117 directory'
+    - name: 'Change ownership of /usr/share/tomcat/{{ tomcat_package_name }} directory'
       file:
         path: '/usr/share/tomcat/'
         owner: tomcat
@@ -51,15 +54,6 @@
         state: directory
         mode: '0755'
       tags: "Install-tomcat"
-
-    - name: 'Download Jenkins Server .war file'
-      get_url:
-        url: 'https://get.jenkins.io/war-stable/2.555.1/jenkins.war'
-        dest: '/usr/share/tomcat/webapps/jenkins.war'
-        owner: tomcat
-        group: tomcat
-        mode: '0644'
-      tags: "Install-jenkins"
 
     - name: 'Start tomcat server'
       shell: '/usr/share/tomcat/bin/startup.sh'

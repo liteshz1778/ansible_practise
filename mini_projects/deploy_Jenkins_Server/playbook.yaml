@@ -1,0 +1,31 @@
+- name: Demo Jenkins Server Deployment
+  hosts: localhost
+  become: true
+  tasks:
+    - name: 'Install {{ item }}package'
+      package:
+        name: '{{ item}}'
+        state: present
+      loop: 
+        - java-17-amazon-corretto
+
+    - name: 'Add Jenkins repo'
+      get_url: 
+        url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+        dest: /etc/yum.repos.d/jenkins.repo
+    
+    - name: Import Jenkins GPG key
+      rpm_key:
+        key: https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+        state: present
+
+    - name: Install Jenkins
+      package:
+        name: jenkins
+        state: present
+
+    - name: Start Jenkins
+      service:
+        name: jenkins
+        state: started
+        enabled: true
