@@ -4,12 +4,14 @@
   tasks:
     - name: 'Install java package'
       package:
-        name: 'java-25-openjdk.x86_64'
+        name: 'java-25-amazon-corretto.x86_64'
         state: present
+      tags: 'Install-java'
 
     - name: 'Create tomcat group'
       group:
         name: tomcat
+      tags: "Install-tomcat"
 
     - name: 'Create tomcat user'
       user:
@@ -19,23 +21,27 @@
         group: tomcat
         home: /usr/share/tomcat
         createhome: false
+      tags: "Install-tomcat"
 
     - name: 'Download Tomcat'
       get_url:
         url: 'https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.117/bin/apache-tomcat-9.0.117.tar.gz'
         dest: '/opt/'
+      tags: "Install-tomcat"
 
     - name: 'Extract apache-tomcat-9.0.117.tar.gz file to /opt/ directory'
       unarchive:
         src: '/opt/apache-tomcat-9.0.117.tar.gz'
         dest: '/opt/'
         remote_src: true
+      tags: "Install-tomcat"
 
     - name: Create symlink for Tomcat
       file:
         src: /opt/apache-tomcat-9.0.117
         path: /usr/share/tomcat
         state: link
+      tags: "Install-tomcat"
 
     - name: 'Change ownership of /usr/share/tomcat/apache-tomcat-9.0.117 directory'
       file:
@@ -43,30 +49,18 @@
         owner: tomcat
         group: tomcat
         state: directory
+      tags: "Install-tomcat"
 
-    - name: 'Download the Java Code'
-      git:
-        repo: https://github.com/ranjit4github/LoginWebApp.git
-        dest: /mnt
-        version: master
-        force: yes
+    - name: 'Download Jenkins Server .war file'
+      get_url:
+        url: 'https://get.jenkins.io/war-stable/2.555.1/jenkins.war'
+        dest: '/usr/share/tomcat/webapps/'
+      tags: "Install-jenkins"
 
-    - name: 'Install maven package'
-      package:
+    - name: 'Install Maven'
+      package:    
         name: 'maven'
         state: present
 
-    - name: 'Create .war file from artifacts'
-      command: mvn install -X
-      args:
-        chdir: /mnt
-
-
-    - name: 'Copy .war to tomcat/webapps directory'
-      copy:
-        src: /mnt/target/LoginWebApp.war
-        dest: /usr/share/tomcat/webapps/LoginWebApp.war
-
     - name: 'Start tomcat server'
       shell: '/usr/share/tomcat/bin/catalina.sh start'
-
