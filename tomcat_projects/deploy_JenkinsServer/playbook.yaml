@@ -4,7 +4,7 @@
   tasks:
     - name: 'Install java package'
       package:
-        name: 'java-25-amazon-corretto.x86_64'
+        name: 'java-11-amazon-corretto.x86_64'
         state: present
       tags: 'Install-java'
 
@@ -49,18 +49,17 @@
         owner: tomcat
         group: tomcat
         state: directory
+        mode: '0755'
       tags: "Install-tomcat"
 
     - name: 'Download Jenkins Server .war file'
       get_url:
         url: 'https://get.jenkins.io/war-stable/2.555.1/jenkins.war'
-        dest: '/usr/share/tomcat/webapps/'
+        dest: '/usr/share/tomcat/webapps/jenkins.war'
+        owner: tomcat
+        group: tomcat
+        mode: '0644'
       tags: "Install-jenkins"
 
-    - name: 'Install Maven'
-      package:    
-        name: 'maven'
-        state: present
-
     - name: 'Start tomcat server'
-      shell: '/usr/share/tomcat/bin/catalina.sh start'
+      shell: '/usr/share/tomcat/bin/startup.sh'
